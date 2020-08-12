@@ -31,7 +31,7 @@
 #include <dali/public-api/math/matrix.h>
 #include <dali/internal/common/buffer-index.h>
 
-#if defined (ANDROID) || defined(WIN32)
+#if defined (ANDROID) || defined(WIN32) || defined(__APPLE__)
 namespace std
 {
 
@@ -327,42 +327,42 @@ public:
 
       case Property::INTEGER:
       {
-        return std::_Hash_bytes(&GetInteger(bufferIndex), sizeof(int), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(int), seed);
       }
 
       case Property::FLOAT:
       {
-        return std::_Hash_bytes(&GetFloat(bufferIndex), sizeof(float), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(float), seed);
       }
 
       case Property::VECTOR2:
       {
-        return std::_Hash_bytes(&GetVector2(bufferIndex), sizeof(Vector2), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(Vector2), seed);
       }
 
       case Property::VECTOR3:
       {
-        return std::_Hash_bytes(&GetVector3(bufferIndex), sizeof(Vector3), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(Vector3), seed);
       }
 
       case Property::VECTOR4:
       {
-        return std::_Hash_bytes(&GetVector4(bufferIndex), sizeof(Vector4), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(Vector4), seed);
       }
 
       case Property::ROTATION:
       {
-        return std::_Hash_bytes(&GetQuaternion(bufferIndex), sizeof(Quaternion), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(Quaternion), seed);
       }
 
       case Property::MATRIX:
       {
-        return std::_Hash_bytes(&GetMatrix(bufferIndex), sizeof(Matrix), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(Matrix), seed);
       }
 
       case Property::MATRIX3:
       {
-        return std::_Hash_bytes(&GetMatrix3(bufferIndex), sizeof(Matrix3), seed);
+        return std::_Hash_bytes(&GetBoolean(bufferIndex), sizeof(Matrix3), seed);
       }
 
       default:
