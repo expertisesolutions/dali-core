@@ -15,6 +15,10 @@
       * [3. Building for MS Windows](#3-building-for-ms-windows)
          * Build with the Visual Studio project.
          * Build with CMake.
+      * [4. Building for MacOS](#4-building-for-macos)
+         * Get dependencies
+         * Creating a DALi Environment
+         * Building the repository
 
 # Build Instructions
 
@@ -134,3 +138,76 @@ vcpkg-script folder in the windows-dependencies repository.
     - CMAKE_INSTALL_PREFIX  ---> Were DALi is installed.
     - INSTALL_CMAKE_MODULES ---> Whether to install the CMake modules (Used by the CMake command find_package() to find previously installed libraries).
     - ENABLE_DEBUG          ---> Whether to build with debug enabled.
+
+
+## 4. Building for MacOS
+
+### Getting dependencies
+
+Dependencies are obtained through `vcpkg` and `homebrew`, from `vcpkg` we need:
+ - `angle`
+ - `bzip2`
+ - `curl`
+ - `dirent`
+ - `egl-registry`
+ - `expat`
+ - `fribidi`
+ - `getopt`
+ - `gettext`
+ - `giflib`
+ - `glib`
+ - `harfbuzz`
+ - `libexif`
+ - `libffi`
+ - `libiconv`
+ - `libjpeg-turbo`
+ - `libpng`
+ - `libwebp`
+ - `opengl`
+ - `pcre`
+ - `pixman`
+ - `pthreads`
+ - `ragel`
+ - `tool-meson`
+ - `zlib`
+
+And from `homebrew` we need:
+ - `cairo`
+ - `cmake`
+
+### Creating a DALi Environment
+Now you need to create a `dali-env` folder and then set some environment variables.
+- `VCPKG_FOLDER` should contain the absolute path to where is your `vcpkg` instalation
+- `DESKTOP_PREFIX` should contain the absolute path to `dali-env`
+        $ export VCPKG_FOLDER="${HOME}/my_vcpkg_path"
+        $ export DESKTOP_PREFIX="${HOME}/my_dali_env_path"
+Those other variables need to be setted acordingly to `VCPKG_FOLDER` and `DESKTOP_PREFIX`:
+        $ export DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH}:${VCPKG_FOLDER}/vcpkg/installed/x64-osx/lib"
+        $ export DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH}:${DESKTOP_PREFIX}/lib/"
+        $ export DALI_APPLICATION_PACKAGE="${DESKTOP_PREFIX}/share/com.samsung.dali-demo/res/"
+        $ export DALI_WINDOW_WIDTH="480"
+        $ export DALI_WINDOW_HEIGHT="800"
+
+You will need these variables every time you open up a new terminal. So you may put them on a file, here `setenv`, to just source it:
+
+        $ source setenv
+
+If you are going to build `dali` libs with debug option you should also set:
+        $ export DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH}:${VCPKG_FOLDER}/vcpkg/installed/x64-osx/debug/lib"
+        $ export DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH}:${DESKTOP_PREFIX}/lib/debug"
+
+### Building the repository
+
+To build the repository clone `expertisesolution/dali-core`, change to `walac/macos` branch and enter the 'build/tizen' folder:
+
+         $ cd dali-core/build/tizen
+
+Then run the following command to set up the build:
+
+         $ cmake -DCMAKE_INSTALL_PREFIX=$DESKTOP_PREFIX -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -Wno-dev -DCMAKE_TOOLCHAIN_FILE=$VCPKG_FOLDER/vcpkg/scripts/buildsystems/vcpkg.cmake -DINSTALL_CMAKE_MODULES=ON
+
+If a Debug build is required, then add -DCMAKE_BUILD_TYPE=Debug -DENABLE_DEBUG=ON
+
+To build run:
+
+         $ make install -j8
