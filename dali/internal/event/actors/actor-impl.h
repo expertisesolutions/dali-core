@@ -1382,6 +1382,25 @@ public:
     return mCaptureAllTouchAfterStart;
   }
 
+  /**
+   * Sets the touch area of an actor.
+   * @param [in] area The new area.
+   */
+  void SetTouchArea(Vector2 area)
+  {
+    mTouchArea = area;
+  }
+
+  /**
+   * Retrieve the Actor's touch area.
+   * @return The Actor's touch area.
+   */
+  const Vector2& GetTouchArea() const
+  {
+    return mTouchArea;
+  }
+
+
   // Gestures
 
   /**
@@ -2026,6 +2045,7 @@ protected:
   Vector3         mTargetPosition;    ///< Event-side storage for position (not a pointer as most actors will have a position)
   Vector3         mTargetScale;       ///< Event-side storage for scale
   Vector3         mAnimatedSize;      ///< Event-side storage for size animation
+  Vector2         mTouchArea;         ///< touch area
 
   std::string     mName;              ///< Name of the actor
   uint32_t        mSortedDepth;       ///< The sorted depth index. A combination of tree traversal and sibling order.
